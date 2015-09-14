@@ -1,0 +1,3 @@
+[submodule "config/acc"]
+	path = config/acc
+	url = https://github.com/Hippoom/restbucks-config-acc.git
