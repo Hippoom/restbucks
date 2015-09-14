@@ -1,0 +1,14 @@
+#intelij
+.idea
+*.iml
+
+#gradle
+build
+.gradle
+
+#osx
+.DS_Store
+
+#local
+src/test/resources/env.properties
+environments/dev/
