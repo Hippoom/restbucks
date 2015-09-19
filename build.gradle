@@ -105,7 +105,7 @@ task runSmokeTest(type: Test) {
 
     reports {
         html {
-            destination = "$buildDir/build/reports/smoke"
+            destination = "$buildDir/reports/smoke"
         }
     }
 }
