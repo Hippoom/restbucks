@@ -2,6 +2,10 @@
 
 profile=$1
 
+docker stop $profile-restbucks-ordering
+
+docker rm $profile-restbucks-ordering
+
 docker run --name $profile-restbucks-ordering \
            -p 8080 \
            -d \
