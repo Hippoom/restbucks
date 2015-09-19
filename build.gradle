@@ -4,7 +4,6 @@ apply plugin: 'spring-boot'
 apply plugin: 'maven'
 apply plugin: "jacoco"
 
-group = 'com.restbucks'
 version = getVersion()
 
 sourceCompatibility = 1.8
@@ -84,7 +83,7 @@ buildscript {
 }
 
 test {
-    exclude 'com/restbucks/*/smoke/*'
+    exclude 'com/restbucks/**/smoke/*'
 
     testLogging {
         events "passed", "skipped", "failed", "standardOut", "standardError"
@@ -97,7 +96,7 @@ task runSmokeTest(type: Test) {
     // this task will be executed in isolation since all artifacts have been built and deployed
     dependsOn = []
 
-    exclude 'com/restbucks/*/smoke/*'
+    include 'com/restbucks/**/smoke/*'
 
     testLogging {
         events "passed", "skipped", "failed", "standardOut", "standardError"
@@ -110,16 +109,6 @@ task runSmokeTest(type: Test) {
         }
     }
 }
-
-task recordBinary() {
-    doLast {
-        def binary = file("${buildDir}/libs/binary")
-        binary.text = "${project.name}-${project.version}.jar"
-    }
-}
-
-build.dependsOn(recordBinary)
-
 
 def getVersion() {
     return "0.1-" + getBuildNumber()
