@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = "com.restbucks.ordering")
+@ComponentScan(basePackages = {"com.restbucks.ordering", "com.restbucks.commandhandling"})
 @EnableAutoConfiguration
 public class Application {
 

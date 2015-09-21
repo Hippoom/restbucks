@@ -1,6 +1,6 @@
 package com.restbucks.ordering.rest;
 
-import com.restbucks.ordering.commandgateway.CommandGateway;
+import com.restbucks.commandhandling.gateway.CommandGateway;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.rest.assembler.OrderRepresentationAssembler;

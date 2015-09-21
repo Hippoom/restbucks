@@ -5,7 +5,7 @@ import com.google.common.io.Resources;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.restassured.RestAssured;
 import com.restbucks.ordering.Application;
-import com.restbucks.ordering.commandgateway.CommandGateway;
+import com.restbucks.commandhandling.gateway.CommandGateway;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderFixture;
