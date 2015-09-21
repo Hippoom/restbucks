@@ -1,6 +1,5 @@
 package com.restbucks.commandhandling.gateway;
 
-import com.restbucks.commandhandling.gateway.CommandGateway;
 import com.restbucks.commandhandling.annotation.CommandHandler;
 import org.junit.Before;
 import org.junit.Test;
