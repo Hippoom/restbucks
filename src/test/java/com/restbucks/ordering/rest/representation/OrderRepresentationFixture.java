@@ -12,7 +12,7 @@ public class OrderRepresentationFixture {
         representation.trackingId = "1234";
         representation.location = "takeAway";
         representation.cost = 2.0;
-        representation.status = "payment-expected";
+        representation.status = "pending";
     }
 
     private OrderRepresentation.Item defaultItem() {
