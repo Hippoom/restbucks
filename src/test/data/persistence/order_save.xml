@@ -1,0 +1,15 @@
+<dataset>
+    <given>
+        <t_order id="1" location="takeAway" status="pending" cost="2.0"/>
+        <t_order_item order_id="1" name="cappuccino" quantity="1" milk="semi" size="large" price="1.5"/>
+        <t_order_item order_id="1" name="latte" quantity="2" milk="slim" size="small" price="2.5"/>
+    </given>
+
+    <then>
+        <added>
+            <t_order id="2" location="takeAway" status="pending" cost="2.0"/>
+            <t_order_item order_id="2" name="cappuccino" quantity="1" milk="semi" size="large" price="1.5"/>
+            <t_order_item order_id="2" name="latte" quantity="2" milk="slim" size="small" price="2.5"/>
+        </added>
+    </then>
+</dataset>

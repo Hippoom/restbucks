@@ -5,15 +5,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "t_order")
 @Getter
+@NoArgsConstructor
 public class Order {
+    @Id
+    @Column(name = "id")
     private String trackingId;
     private String location;
     private String status;
     private double cost;
+
+    @ElementCollection
+    @CollectionTable(name = "t_order_item",
+            joinColumns = {@JoinColumn(name = "order_id")})
     private List<Item> items = new ArrayList<>();
 
     public Order(String trackingId) {
@@ -37,6 +47,7 @@ public class Order {
     @EqualsAndHashCode
     @ToString
     @Getter
+    @Embeddable
     public static class Item {
         private String name;
         private int quantity;

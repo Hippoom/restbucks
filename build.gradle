@@ -20,9 +20,7 @@ sourceSets {
     }
     test {
         resources {
-            srcDir 'src/test/features'
             srcDir 'src/test/data'
-            srcDir 'src/test/sql'
         }
 
         compileClasspath += configurations.provided
@@ -57,7 +55,10 @@ dependencies {
     compile 'org.modelmapper:modelmapper:0.7.5'
     compile "org.springframework:spring-orm:${springVersion}"
     compile "org.springframework:spring-context:${springVersion}"
-
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.data:spring-data-jpa:1.9.0.RELEASE'
+    compile 'org.hibernate:hibernate-entitymanager:5.0.1.Final'
+    compile 'org.apache.commons:commons-dbcp2:2.1.1'
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile('junit:junit:4.12') {
@@ -68,6 +69,11 @@ dependencies {
     testCompile 'com.jayway.jsonpath:json-path:0.9.1'
     testCompile 'com.jayway.awaitility:awaitility:1.6.4'
     testCompile 'org.assertj:assertj-core:3.1.0'
+    testCompile 'com.h2database:h2:1.4.187'
+    testCompile 'com.github.hippoom:spring-test-dbunit-template:0.1.1'
+    testCompile('org.flywaydb.flyway-test-extensions:flyway-spring-test:3.2.1') {
+        exclude group: 'org.slf4j' //introducing multiple slf4j impl
+    }
 }
 
 buildscript {

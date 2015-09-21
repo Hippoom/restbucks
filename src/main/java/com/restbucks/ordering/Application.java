@@ -2,6 +2,7 @@ package com.restbucks.ordering;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(basePackages = {"com.restbucks.ordering", "com.restbucks.commandhandling"})
