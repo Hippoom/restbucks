@@ -94,7 +94,7 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
 
         given().contentType(JSON).content(command)
                 .when()
-                .post("/orders")
+                .post("/order")
                 .then().log().everything()
                 .assertThat()
                 .statusCode(SC_CREATED)

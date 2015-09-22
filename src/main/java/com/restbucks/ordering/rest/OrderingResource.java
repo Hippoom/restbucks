@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderingResource {
     @Autowired
     private CommandGateway commandGateway;
