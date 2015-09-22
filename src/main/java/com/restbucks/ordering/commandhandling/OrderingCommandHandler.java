@@ -1,5 +1,6 @@
 package com.restbucks.ordering.commandhandling;
 
+import com.restbucks.commandhandling.annotation.CommandHandler;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderRepository;
@@ -7,7 +8,6 @@ import com.restbucks.ordering.domain.ProductCatalogService;
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class OrderingCommandHandler {
     @Autowired
     private ProductCatalogService productCatalogService;
 
-    @Transactional
+    @CommandHandler
     public Order handle(PlaceOrderCommand command) {
         String trackingId = orderRepository.nextTrackingId();
         Order order = new Order(trackingId);

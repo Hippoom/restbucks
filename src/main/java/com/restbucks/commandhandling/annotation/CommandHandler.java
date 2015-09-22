@@ -7,6 +7,7 @@ import java.lang.annotation.*;
         ElementType.TYPE
 })
 @Retention(RetentionPolicy.RUNTIME)
+@Inherited
 @Documented
 public @interface CommandHandler {
 }

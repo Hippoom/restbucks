@@ -3,6 +3,7 @@ package com.restbucks.ordering.persistence.jpa;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,7 @@ public class JpaOrderRepository implements OrderRepository {
         return UUID.randomUUID().toString();
     }
 
+    @Transactional
     @Override
     public void store(Order order) {
         entityManager.persist(order);

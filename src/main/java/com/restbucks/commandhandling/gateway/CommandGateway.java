@@ -23,7 +23,6 @@ public class CommandGateway {
     }
 
 
-
     public void register(Object commandHandler) {
         Method[] declaredMethods = commandHandler.getClass().getDeclaredMethods();
         for (Method method : declaredMethods) {

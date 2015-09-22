@@ -1,6 +1,5 @@
 package com.restbucks.ordering.persistence;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,11 +21,10 @@ import javax.sql.DataSource;
 public class PersistenceConfig {
 
     @Bean
-    @ConfigurationProperties(prefix="jdbc")
+    @ConfigurationProperties(prefix = "jdbc")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
-
 
 
 }

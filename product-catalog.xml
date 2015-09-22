@@ -1,0 +1,9 @@
+<products>
+    <product name="latte" size="large" price="2.5"/>
+    <product name="latte" size="medium" price="2.0"/>
+    <product name="latte" size="small" price="1.5"/>
+
+    <product name="cappuccino" size="large" price="2.75"/>
+    <product name="cappuccino" size="medium" price="2.25"/>
+    <product name="cappuccino" size="small" price="1.75"/>
+</products>
