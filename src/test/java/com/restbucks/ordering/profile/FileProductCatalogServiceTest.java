@@ -15,7 +15,7 @@ public class FileProductCatalogServiceTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private FileProductCatalogService subject = new FileProductCatalogService();
-    private String path = new PathResource("/Users/twer/Workspace/restbucks/src/test/data/file/product-catalog.xml").getPath();
+    private String path = new PathResource("src/test/data/file/product-catalog.xml").getPath();
 
     @Before
     public void setUp() throws Exception {

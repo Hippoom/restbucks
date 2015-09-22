@@ -3,6 +3,7 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'maven'
 apply plugin: "jacoco"
+apply plugin: 'org.flywaydb.flyway'
 
 version = getVersion()
 
@@ -61,6 +62,7 @@ dependencies {
     compile 'org.apache.commons:commons-dbcp2:2.1.1'
     compile 'dom4j:dom4j:1.6.1'
     compile 'jaxen:jaxen:1.1.6'
+    compile 'mysql:mysql-connector-java:5.1.36'
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile('junit:junit:4.12') {
@@ -71,7 +73,7 @@ dependencies {
     testCompile 'com.jayway.jsonpath:json-path:0.9.1'
     testCompile 'com.jayway.awaitility:awaitility:1.6.4'
     testCompile 'org.assertj:assertj-core:3.1.0'
-    compile 'com.h2database:h2:1.4.187'
+    testCompile 'com.h2database:h2:1.4.187'
     testCompile 'com.github.hippoom:spring-test-dbunit-template:0.1.1'
     testCompile('org.flywaydb.flyway-test-extensions:flyway-spring-test:3.2.1') {
         exclude group: 'org.slf4j' //introducing multiple slf4j impl
@@ -91,6 +93,8 @@ buildscript {
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+        classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
+        classpath 'mysql:mysql-connector-java:5.1.36'
     }
 
 }

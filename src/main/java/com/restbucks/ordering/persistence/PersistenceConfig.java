@@ -17,14 +17,14 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = {"com.restbucks.ordering.persistence.jpa"})
 @EnableTransactionManagement
 @Configuration
-@PropertySource(value = "classpath:datasource.properties")
+//@PropertySource(value = "classpath:datasource.properties")
 public class PersistenceConfig {
 
-    @Bean
-    @ConfigurationProperties(prefix = "jdbc")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
-    }
+//    @Bean
+//    @ConfigurationProperties(prefix = "jdbc")
+//    public DataSource dataSource() {
+//        return DataSourceBuilder.create().build();
+//    }
 
 
 }

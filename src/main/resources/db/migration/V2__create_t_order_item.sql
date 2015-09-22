@@ -4,6 +4,6 @@ create table t_order_item (
     quantity int not null,
     milk varchar(50) not null,
     size varchar(50) not null,
-    price number(8,2) not null,
+    price DECIMAL(8,2) not null,
     CONSTRAINT pk_order_item PRIMARY KEY (order_id, name, milk, size)
 );

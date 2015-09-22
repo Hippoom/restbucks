@@ -2,8 +2,7 @@
 
 user_home="$(eval echo ~$USER)"
 
-docker run --name restbucks-ordering-build \
-           --rm \
+docker run --rm \
            -t \
            -v $(pwd):/project \
            -v $user_home/.gradle:/root/.gradle \
