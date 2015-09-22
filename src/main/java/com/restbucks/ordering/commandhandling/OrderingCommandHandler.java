@@ -5,13 +5,17 @@ import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderRepository;
 import com.restbucks.ordering.domain.ProductCatalogService;
 import org.modelmapper.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
+@Component
 public class OrderingCommandHandler {
+    @Autowired
     private OrderRepository orderRepository;
     private ProductCatalogService productCatalogService;
 
