@@ -4,8 +4,12 @@ spring:
     username: sa
     password:
   jpa:
+    show_sql: true
+    format_sql: true
     hibernate:
       ddl-auto: none
+      ejb:
+        naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
 logging:
   level:
     org:
