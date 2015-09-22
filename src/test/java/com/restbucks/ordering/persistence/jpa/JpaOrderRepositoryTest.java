@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -35,6 +36,7 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
         DbUnitTestExecutionListener.class, FlywayTestExecutionListener.class})
 @FlywayTest(invokeCleanDB = false)
 @DbUnitConfiguration(dataSetLoader = GivenWhenThenFlatXmlDataSetLoader.class)
+@ActiveProfiles("test")
 public class JpaOrderRepositoryTest {
     @Autowired
     private OrderRepository subject;

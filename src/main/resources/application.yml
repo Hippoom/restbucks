@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:ordering;MODE=MYSQL;INIT=CREATE SCHEMA IF NOT EXISTS \"public\"
-    username: sa
+    url: jdbc:mysql://db:3306/restbucks_ordering?useUnicode=true&characterEncoding=utf-8
+    username: ordering
     password:
   jpa:
     show_sql: true
