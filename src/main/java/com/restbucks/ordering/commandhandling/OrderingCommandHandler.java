@@ -17,6 +17,7 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 public class OrderingCommandHandler {
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private ProductCatalogService productCatalogService;
 
     @Transactional
