@@ -28,6 +28,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.hateoas.LinkDiscoverer;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -47,6 +48,7 @@ import static org.mockito.Mockito.when;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")//random port used
 @DirtiesContext
+@ActiveProfiles("test")
 public class OrderingResourceIntegrationTest implements ApplicationContextAware {
 
     @Value("${local.server.port}")
