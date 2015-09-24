@@ -109,7 +109,20 @@ test {
 
 test.finalizedBy jacocoTestReport
 
-task runSmokeTest(type: Test) {
+jar {
+    version = null //version is saved in meta.json and versioned()
+}
+
+task versioned() {
+    doLast {
+        def file = file("${buildDir}/version")
+        file.text = getVersion()
+    }
+}
+
+build.finalizedBy versioned
+
+task smokeTest(type: Test) {
     // this task will be executed in isolation since all artifacts have been built and deployed
     dependsOn = []
 
