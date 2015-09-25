@@ -1,11 +1,12 @@
 package com.restbucks.ordering.rest.representation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderRepresentation {
+public class OrderRepresentation extends ResourceSupport {
     @JsonProperty("tracking_id")
     public String trackingId;
     public String location;

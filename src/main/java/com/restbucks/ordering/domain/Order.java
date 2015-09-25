@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 @Entity
 @Table(name = "t_order")
 @Getter
@@ -40,6 +42,10 @@ public class Order {
         this.cost = this.items.stream()
                 .map(i -> i.subtotal())
                 .reduce(0.0, (accumulator, _item) -> accumulator + _item);
+    }
+
+    public void append(Item... items) {
+        append(asList(items));
     }
 
 

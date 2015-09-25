@@ -2,6 +2,7 @@ package com.restbucks.ordering.rest.assembler;
 
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderFixture;
+import com.restbucks.ordering.rest.OrderingResource;
 import com.restbucks.ordering.rest.representation.OrderRepresentation;
 import org.junit.Test;
 
@@ -10,15 +11,16 @@ import java.util.stream.IntStream;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class OrderRepresentationAssemblerTest {
+public class OrderRepresentationMapperShould {
 
-    private OrderRepresentationAssembler subject = new OrderRepresentationAssembler();
+    private OrderRepresentationMapper subject =
+            new OrderRepresentationMapper();
 
     @Test
-    public void whenAssembleRepresentation() {
+    public void convertOrderToNoneLinkOrderRepresentation() {
         Order model = new OrderFixture().build();
 
-        OrderRepresentation representation = subject.assemble(model);
+        OrderRepresentation representation = subject.from(model);
 
         assertThat(representation.trackingId, is(model.getTrackingId()));
         assertThat(representation.location, is(model.getLocation()));

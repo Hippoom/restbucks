@@ -9,9 +9,6 @@ import com.restbucks.ordering.Application;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderFixture;
-import com.restbucks.ordering.rest.assembler.OrderRepresentationAssembler;
-import com.restbucks.ordering.rest.representation.OrderRepresentation;
-import com.restbucks.ordering.rest.representation.OrderRepresentationFixture;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +33,7 @@ import java.io.IOException;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
+import static java.lang.String.format;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -64,8 +62,6 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
     @Mock
     private CommandGateway commandGateway;
 
-    @Mock
-    private OrderRepresentationAssembler orderRepresentationAssembler;
     private final ArgumentCaptor<PlaceOrderCommand> placeOrderCommand = ArgumentCaptor.forClass(PlaceOrderCommand.class);
     private ApplicationContext applicationContext;
 
@@ -79,7 +75,6 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
     public void injectMocks() {
         MockitoAnnotations.initMocks(this);
         reset(commandGateway);
-        reset(orderRepresentationAssembler);
     }
 
     @Test
@@ -89,12 +84,10 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
 
 
         Order order = new OrderFixture().build();
-        OrderRepresentation representation = new OrderRepresentationFixture().build();
 
         when(commandGateway.send(placeOrderCommand.capture())).thenReturn(order);
-        when(orderRepresentationAssembler.assemble(order)).thenReturn(representation);
 
-        given().contentType(JSON).content(command)
+        String body = given().contentType(JSON).content(command)
                 .when()
                 .post("/order")
                 .then().log().everything()
@@ -107,7 +100,11 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
                 .body("items.any { it.containsKey('name') }", is(true))
                 .body("items.any { it.containsKey('quantity') }", is(true))
                 .body("items.any { it.containsKey('milk') }", is(true))
-                .body("items.any { it.containsKey('size') }", is(true));
+                .body("items.any { it.containsKey('size') }", is(true))
+                .extract().response().asString();
+
+        assertThat(JsonPath.read(body, "$._links.self.href"),
+                is(format("http://localhost:%d/order/%s", getPort(), order.getTrackingId())));
 
         assertThat(placeOrderCommand.getValue().getLocation(),
                 equalTo(JsonPath.read(command, "$.location")));

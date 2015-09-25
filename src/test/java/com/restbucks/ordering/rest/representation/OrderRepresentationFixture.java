@@ -1,11 +1,14 @@
 package com.restbucks.ordering.rest.representation;
 
+import org.springframework.hateoas.Link;
+
 public class OrderRepresentationFixture {
     private OrderRepresentation representation = new OrderRepresentation();
 
     public OrderRepresentationFixture() {
         enrichDefaultValues();
         representation.items.add(defaultItem());
+        representation.add(new Link("http://localhost:8080/order/" + representation.trackingId));
     }
 
     private void enrichDefaultValues() {

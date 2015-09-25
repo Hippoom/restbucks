@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
@@ -21,7 +22,6 @@ public class OrderingResource {
 
     @RequestMapping(method = POST)
     @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
     protected OrderRepresentation handle(@RequestBody PlaceOrderCommand command) {
 
         Order order = commandGateway.send(command);
@@ -29,5 +29,8 @@ public class OrderingResource {
         return orderRepresentationAssembler.assemble(order);
     }
 
-
+    @RequestMapping(value = "/{trackingId}", method = GET)
+    public OrderRepresentation get(@PathVariable String trackingId) {
+        return null;
+    }
 }
