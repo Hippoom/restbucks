@@ -1,7 +1,5 @@
 package com.restbucks.ordering.rest;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.restassured.RestAssured;
 import com.restbucks.commandhandling.gateway.CommandGateway;
@@ -119,7 +117,7 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
     }
 
     private String readFileAsString(String path) throws IOException {
-        return Resources.toString(applicationContext.getResource(path).getURL(), Charsets.UTF_8);
+        return TestUtils.readFileAsString(path);
     }
 
     private String getResourceUri(String path) {
