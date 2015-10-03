@@ -8,6 +8,7 @@ import com.restbucks.ordering.domain.ProductCatalogService;
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class OrderingCommandHandler {
     @Autowired
     private ProductCatalogService productCatalogService;
 
+    @Transactional
     @CommandHandler
     public Order handle(PlaceOrderCommand command) {
         String trackingId = orderRepository.nextTrackingId();

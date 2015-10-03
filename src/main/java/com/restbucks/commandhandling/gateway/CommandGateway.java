@@ -1,6 +1,7 @@
 package com.restbucks.commandhandling.gateway;
 
 import com.restbucks.commandhandling.annotation.CommandHandler;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +27,7 @@ public class CommandGateway {
     public void register(Object commandHandler) {
         Method[] declaredMethods = commandHandler.getClass().getDeclaredMethods();
         for (Method method : declaredMethods) {
-            CommandHandler handlerAnnotation = method.getDeclaredAnnotation(CommandHandler.class);
+            CommandHandler handlerAnnotation = AnnotationUtils.findAnnotation(method, CommandHandler.class);
             if (handlerAnnotation != null) {
                 Parameter[] parameters = method.getParameters();
                 if (parameters.length == 1) {
@@ -38,6 +39,7 @@ public class CommandGateway {
             }
         }
     }
+
 
     public class CommandHandlerAdatper {
         private final Object commandHandler;

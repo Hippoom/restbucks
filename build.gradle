@@ -101,6 +101,7 @@ buildscript {
 
 test {
     exclude 'com/restbucks/**/smoke/*'
+    exclude 'com/restbucks/**/feature/*'
 
     testLogging {
         events "passed", "skipped", "failed", "standardOut", "standardError"
