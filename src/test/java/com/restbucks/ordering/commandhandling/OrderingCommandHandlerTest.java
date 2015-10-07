@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.restbucks.ordering.domain.Order.Status.PAYMENT_EXPECTED;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -56,7 +57,7 @@ public class OrderingCommandHandlerTest {
         assertThat(order.getTrackingId(), is("1"));
         assertThat(order.getCustomer(), is(command.getCustomer()));
         assertThat(order.getLocation(), is(command.getLocation()));
-        assertThat(order.getStatus(), is("pending"));
+        assertThat(order.getStatus(), is(PAYMENT_EXPECTED));
         assertThat(order.getCost(), is(5.0));
         assertThat(order.getItems(), contains(
                 new Order.Item("cappuccino", 1, "semi", "large", 2.0),

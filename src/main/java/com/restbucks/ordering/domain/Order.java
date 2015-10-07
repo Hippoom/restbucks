@@ -1,5 +1,6 @@
 package com.restbucks.ordering.domain;
 
+import com.restbucks.ordering.persistence.jpa.OrderStatusConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ public class Order {
     private String trackingId;
     private String customer;
     private String location;
-    private String status;
+    @Convert(converter = OrderStatusConverter.class)
+    private Status status;
     private double cost;
 
     @ElementCollection
@@ -31,7 +33,7 @@ public class Order {
 
     public Order(String trackingId) {
         this.trackingId = trackingId;
-        this.status = "pending";
+        this.status = Status.PAYMENT_EXPECTED;
     }
 
     public void locationIs(String location) {
@@ -75,6 +77,28 @@ public class Order {
 
         public double subtotal() {
             return getQuantity() * getPrice();
+        }
+    }
+
+    @Getter
+    public enum Status {
+        PAYMENT_EXPECTED("payment-expected"),
+        UNKNOWN("unknown");
+
+        private String value;
+
+        Status(String value) {
+            this.value = value;
+        }
+
+
+        public static Status of(String value) {
+            for (Status candidate: values()) {
+                if (candidate.getValue().equals(value)) {
+                    return candidate;
+                }
+            }
+            return UNKNOWN;
         }
     }
 }

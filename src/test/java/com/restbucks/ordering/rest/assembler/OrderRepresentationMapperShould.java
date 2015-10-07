@@ -26,7 +26,7 @@ public class OrderRepresentationMapperShould {
         assertThat(representation.customer, is(model.getCustomer()));
         assertThat(representation.location, is(model.getLocation()));
         assertThat(representation.cost, is(model.getCost()));
-        assertThat(representation.status, is(model.getStatus()));
+        assertThat(representation.status, is(model.getStatus().getValue()));
         assertThat(representation.items.size(), is(model.getItems().size()));
         IntStream.range(0, representation.items.size())
                 .forEach(idx -> {

@@ -37,7 +37,7 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 @FlywayTest(invokeCleanDB = false)
 @DbUnitConfiguration(dataSetLoader = GivenWhenThenFlatXmlDataSetLoader.class)
 @ActiveProfiles("test")
-public class JpaOrderRepositoryTest {
+public class JpaOrderRepositoryShould {
     @Autowired
     private OrderRepository subject;
 
@@ -50,7 +50,7 @@ public class JpaOrderRepositoryTest {
             assertionMode = NON_STRICT_UNORDERED
     )
     @Test
-    public void whenSave_() throws Exception {
+    public void save() throws Exception {
         new TransactionTemplate(transactionManager).execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {

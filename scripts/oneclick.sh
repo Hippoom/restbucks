@@ -6,7 +6,7 @@ profile=$1
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
-#. $DIR/build.sh
+. $DIR/build.sh
 
 . $DIR/dbsetup.sh $profile
 sleep 10
