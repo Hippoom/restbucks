@@ -2,6 +2,7 @@ package com.restbucks.ordering.rest.assembler;
 
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.rest.OrderingResource;
+import com.restbucks.ordering.rest.PaymentResource;
 import com.restbucks.ordering.rest.representation.OrderRepresentation;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,8 @@ public class OrderRepresentationAssembler extends ResourceAssemblerSupport<Order
         OrderRepresentation representation = orderRepresentationMapper.from(entity);
         representation.add(
                 linkTo(methodOn(OrderingResource.class).get(entity.getTrackingId())).withSelfRel());
+        representation.add(
+                linkTo(methodOn(PaymentResource.class).get(entity.getTrackingId())).withRel("payment"));
         return representation;
     }
 

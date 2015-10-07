@@ -2,7 +2,6 @@ package com.restbucks.ordering.feature;
 
 import com.jayway.restassured.RestAssured;
 import com.restbucks.ordering.profile.ProfileConfiguration;
-import com.restbucks.ordering.rest.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +14,7 @@ import java.io.IOException;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
+import static com.jayway.restassured.path.json.JsonPath.from;
 import static com.restbucks.ordering.rest.TestUtils.readFileAsString;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
@@ -39,15 +39,31 @@ public class CashierShould {
     public void acceptOrder() throws IOException {
 
 
-        String command = readFileAsString("classpath:feature/order.json");
+        String placeOrderCommand = readFileAsString("classpath:feature/order.json");
 
+        // @formatter:off
+        String orderRepresentation = given()
+            .contentType(JSON).content(placeOrderCommand)
+        .when()
+            .post("/order")
+        .then()
+            .log().everything()
+            .assertThat().statusCode(SC_CREATED)
+            .extract().body().asString();
+        // @formatter:on
 
-        given().contentType(JSON).content(command)
-                .when()
-                .post("/order")
-                .then().log().everything()
-                .assertThat()
-                .statusCode(SC_CREATED);
+        double orderAmount = from(orderRepresentation).getDouble("cost");
+        String paymentLinkHref = from(orderRepresentation).get("_links.payment.href");
 
+        // @formatter:off
+        given()
+            .contentType(JSON).content("{\"amount\":" + orderAmount + "}")
+        .when()
+            .put(paymentLinkHref)
+        .then()
+            .log().everything()
+            .assertThat().statusCode(SC_CREATED);
+
+        // @formatter:on
     }
 }

@@ -14,20 +14,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.hateoas.LinkDiscoverer;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import java.io.IOException;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
@@ -45,13 +39,10 @@ import static org.mockito.Mockito.when;
 @IntegrationTest("server.port:0")//random port used
 @DirtiesContext
 @ActiveProfiles("test")
-public class OrderingResourceIntegrationTest implements ApplicationContextAware {
+public class OrderResourceShould {
 
     @Value("${local.server.port}")
     private int port;
-
-    @Autowired
-    private LinkDiscoverer linkDiscoverer;
 
     @InjectMocks
     @Autowired
@@ -61,11 +52,9 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
     private CommandGateway commandGateway;
 
     private final ArgumentCaptor<PlaceOrderCommand> placeOrderCommand = ArgumentCaptor.forClass(PlaceOrderCommand.class);
-    private ApplicationContext applicationContext;
 
     @Before
     public void config_rest_assured() {
-        RestAssured.baseURI = getBaseUri();
         RestAssured.port = getPort();
     }
 
@@ -76,9 +65,9 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
     }
 
     @Test
-    public void whenPlaceOrder_itShouldSendDeserializeRequestBodyToPlaceOrderCommandThenSerializeRepresentation() throws Exception {
+    public void sendPlaceOrderCommand_whenPlaceOrder() throws Exception {
 
-        String command = readFileAsString("classpath:rest/place-order.json");
+        String command = TestUtils.readFileAsString("classpath:rest/place-order.json");
 
 
         Order order = new OrderFixture().build();
@@ -104,6 +93,8 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
 
         assertThat(JsonPath.read(body, "$._links.self.href"),
                 is(format("http://localhost:%d/order/%s", getPort(), order.getTrackingId())));
+        assertThat(JsonPath.read(body, "$._links.payment.href"),
+                is(format("http://localhost:%d/payment/%s", getPort(), order.getTrackingId())));
 
         assertThat(placeOrderCommand.getValue().getCustomer(),
                 equalTo(JsonPath.read(command, "$.customer")));
@@ -119,24 +110,9 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
                 equalTo(JsonPath.read(command, "$.items[0].size")));
     }
 
-    private String readFileAsString(String path) throws IOException {
-        return TestUtils.readFileAsString(path);
-    }
-
-    private String getResourceUri(String path) {
-        return getBaseUri() + ":" + getPort() + path;
-    }
-
-    protected String getBaseUri() {
-        return RestAssured.DEFAULT_URI;
-    }
-
     protected int getPort() {
         return port;
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+
 }

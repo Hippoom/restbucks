@@ -13,11 +13,15 @@ public class CommandHandlingConfig {
     private OrderingCommandHandler orderingCommandHandler;
 
     @Autowired
+    private MakePaymentCommandHandler makePaymentCommandHandler;
+
+    @Autowired
     private CommandGateway commandGateway;
 
     @PostConstruct
     public void register() {
         commandGateway.register(orderingCommandHandler);
+        commandGateway.register(makePaymentCommandHandler);
     }
 
 }
