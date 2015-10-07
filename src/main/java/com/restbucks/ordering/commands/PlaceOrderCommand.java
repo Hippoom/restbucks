@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class PlaceOrderCommand {
+    private String customer;
     private String location;
     private List<Item> items = new ArrayList<>();
 

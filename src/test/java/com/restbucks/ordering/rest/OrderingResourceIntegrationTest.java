@@ -104,6 +104,8 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
         assertThat(JsonPath.read(body, "$._links.self.href"),
                 is(format("http://localhost:%d/order/%s", getPort(), order.getTrackingId())));
 
+        assertThat(placeOrderCommand.getValue().getCustomer(),
+                equalTo(JsonPath.read(command, "$.customer")));
         assertThat(placeOrderCommand.getValue().getLocation(),
                 equalTo(JsonPath.read(command, "$.location")));
         assertThat(placeOrderCommand.getValue().getItems().get(0).getName(),
