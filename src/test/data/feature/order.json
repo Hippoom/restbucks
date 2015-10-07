@@ -7,5 +7,6 @@
       "size": "large"
     }
   ],
-  "location": "takeAway"
+  "location": "takeAway",
+  "customer": "Doe"
 }

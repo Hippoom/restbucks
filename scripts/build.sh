@@ -1,8 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e
 
-WORKSPACE="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
-
-user_home="$(eval echo ~$USER)"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. $DIR/common.sh
 
 docker run --rm \
            -t \

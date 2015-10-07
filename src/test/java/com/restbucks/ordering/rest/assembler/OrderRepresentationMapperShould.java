@@ -23,6 +23,7 @@ public class OrderRepresentationMapperShould {
         OrderRepresentation representation = subject.from(model);
 
         assertThat(representation.trackingId, is(model.getTrackingId()));
+        assertThat(representation.customer, is(model.getCustomer()));
         assertThat(representation.location, is(model.getLocation()));
         assertThat(representation.cost, is(model.getCost()));
         assertThat(representation.status, is(model.getStatus()));

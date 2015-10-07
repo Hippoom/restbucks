@@ -26,6 +26,7 @@ public class OrderingCommandHandler {
     public Order handle(PlaceOrderCommand command) {
         String trackingId = orderRepository.nextTrackingId();
         Order order = new Order(trackingId);
+        order.customerIs(command.getCustomer());
         order.locationIs(command.getLocation());
         order.append(itemsFrom(command.getItems()));
         orderRepository.store(order);

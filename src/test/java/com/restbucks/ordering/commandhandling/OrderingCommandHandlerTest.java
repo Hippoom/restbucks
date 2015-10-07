@@ -41,7 +41,7 @@ public class OrderingCommandHandlerTest {
         List<PlaceOrderCommand.Item> items = new ArrayList<>();
         items.add(new PlaceOrderCommand.Item("cappuccino", 1, "semi", "large"));
         items.add(new PlaceOrderCommand.Item("latte", 2, "slim", "small"));
-        PlaceOrderCommand command = new PlaceOrderCommand("takeAway", items);
+        PlaceOrderCommand command = new PlaceOrderCommand("Doe", "takeAway", items);
 
         when(orderRepository.nextTrackingId()).thenReturn("1");
         when(productCatalogService.evaluate("cappuccino", "large"))
@@ -54,6 +54,7 @@ public class OrderingCommandHandlerTest {
         verify(orderRepository).store(order);
 
         assertThat(order.getTrackingId(), is("1"));
+        assertThat(order.getCustomer(), is(command.getCustomer()));
         assertThat(order.getLocation(), is(command.getLocation()));
         assertThat(order.getStatus(), is("pending"));
         assertThat(order.getCost(), is(5.0));

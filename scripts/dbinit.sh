@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e
 
-WORKSPACE="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
 profile=$1
-user_home="$(eval echo ~$USER)"
 
-sleep 5
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. $DIR/common.sh
+
 
 docker run \
             --rm \

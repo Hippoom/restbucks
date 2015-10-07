@@ -13,7 +13,8 @@ public class PlaceOrderCommand {
     private String location;
     private List<Item> items = new ArrayList<>();
 
-    public PlaceOrderCommand(String location, List<Item> items) {
+    public PlaceOrderCommand(String customer, String location, List<Item> items) {
+        this.customer = customer;
         this.location = location;
         this.items = items;
     }

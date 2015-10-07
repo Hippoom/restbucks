@@ -92,6 +92,7 @@ public class OrderingResourceIntegrationTest implements ApplicationContextAware 
                 .assertThat()
                 .statusCode(SC_CREATED)
                 .body("any { it.key == 'tracking_id' }", is(true))
+                .body("any { it.key == 'customer' }", is(true))
                 .body("any { it.key == 'location' }", is(true))
                 .body("any { it.key == 'status' }", is(true))
                 .body("any { it.key == 'cost' }", is(true))

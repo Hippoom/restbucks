@@ -1,7 +1,12 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e
 
 profile=$1
-user_home="$(eval echo ~$USER)"
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. $DIR/common.sh
+
+
+docker rm -f -v $profile-restbucks-ordering-db || true
 
 docker run \
             --name $profile-restbucks-ordering-db \

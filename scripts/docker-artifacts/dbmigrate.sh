@@ -1,10 +1,10 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
+
+WORKSPACE="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
+user_home="$(eval echo ~$USER)"
+version=$(eval cat $WORKSPACE/build/version)
 
 profile=$1
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-. $DIR/common.sh
-
 
 docker run --rm \
            -t \
@@ -12,7 +12,7 @@ docker run --rm \
            -v $WORKSPACE:/project \
            -w /project \
            --link $profile-restbucks-ordering-db:db \
-           java:8 \
+           hippoom/restbucks-ordering:$version \
            ./gradlew flywayMigrate -i\
            -Dflyway.user=ordering \
            -Dflyway.password=123456 \

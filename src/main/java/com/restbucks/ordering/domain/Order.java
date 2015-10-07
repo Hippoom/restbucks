@@ -19,6 +19,7 @@ public class Order {
     @Id
     @Column(name = "id")
     private String trackingId;
+    private String customer;
     private String location;
     private String status;
     private double cost;
@@ -48,6 +49,9 @@ public class Order {
         append(asList(items));
     }
 
+    public void customerIs(String name) {
+        this.customer = name;
+    }
 
     @NoArgsConstructor
     @EqualsAndHashCode

@@ -123,7 +123,7 @@ task versioned() {
 
 build.finalizedBy versioned
 
-task runSmokeTest(type: Test) {
+task smokeTest(type: Test) {
     // this task will be executed in isolation since all artifacts have been built and deployed
     dependsOn = []
 
@@ -137,6 +137,24 @@ task runSmokeTest(type: Test) {
     reports {
         html {
             destination = "$buildDir/reports/smoke"
+        }
+    }
+}
+
+task featureTest(type: Test) {
+    // this task will be executed in isolation since all artifacts have been built and deployed
+    dependsOn = []
+
+    include 'com/restbucks/**/feature/*'
+
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+    outputs.upToDateWhen { false }//force to always rerun
+
+    reports {
+        html {
+            destination = "$buildDir/reports/feature"
         }
     }
 }
