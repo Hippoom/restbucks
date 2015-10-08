@@ -20,13 +20,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultHandler;
+import org.springframework.test.web.servlet.result.PrintingResultHandler;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 
 import static com.restbucks.ordering.rest.TestUtils.readFileAsString;
 import static java.lang.String.format;
@@ -36,7 +43,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -87,7 +93,7 @@ public class PaymentResourceShould {
         mvc.perform(
                 put("/payment/" + order.getTrackingId())
                         .content(command).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
+                .andDo(CustomMockMvcResultHandlers.print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(payment.getId())))
                 .andExpect(jsonPath("$.amount", is(2.4)))
@@ -101,5 +107,59 @@ public class PaymentResourceShould {
                 equalTo(JsonPath.read(command, "$.amount")));
     }
 
+    public static class CustomMockMvcResultHandlers {
 
+        public static ResultHandler print() {
+            return new ConsolePrintingResultHandler();
+        }
+
+
+        /**
+         * An {@link PrintingResultHandler} that writes to the "standard" output stream
+         */
+        private static class ConsolePrintingResultHandler extends PrintingResultHandler {
+
+            public ConsolePrintingResultHandler() {
+                super(new ResultValuePrinter() {
+
+                    @Override
+                    public void printHeading(String heading) {
+                        System.out.println();
+                        System.out.println(String.format("%20s:", heading));
+                    }
+
+                    @Override
+                    public void printValue(String label, Object value) {
+                        if (value != null && value.getClass().isArray()) {
+                            value = CollectionUtils.arrayToList(value);
+                        }
+                        System.out.println(String.format("%20s = %s", label, value));
+                    }
+
+
+                });
+
+
+            }
+
+            @Override
+            protected void printRequest(MockHttpServletRequest request) throws Exception {
+                super.printRequest(request);
+                getPrinter().printValue("Body", getContentAsString(request));
+            }
+
+            private String getContentAsString(MockHttpServletRequest request) throws IOException {
+                BufferedReader reader = request.getReader();
+
+                StringBuilder builder = new StringBuilder();
+                String aux;
+
+                while ((aux = reader.readLine()) != null) {
+                    builder.append(aux);
+                }
+
+                return builder.toString();
+            }
+        }
+    }
 }
