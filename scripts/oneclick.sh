@@ -10,8 +10,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 . $DIR/dbsetup.sh $profile
 sleep 10
-. $DIR/dbinit.sh $profile
-
 . $DIR/dbmigrate.sh $profile
 . $DIR/deploy.sh $profile
 
