@@ -13,7 +13,4 @@ docker run --rm \
            -w /project \
            --link $profile-restbucks-ordering-db:db \
            java:8 \
-           ./gradlew flywayMigrate -i\
-           -Dflyway.user=ordering \
-           -Dflyway.password=123456 \
-           -Dflyway.url="jdbc:mysql://db:3306/restbucks_ordering?useUnicode=true&characterEncoding=utf-8"
+           ./gradlew flywayMigrate -i

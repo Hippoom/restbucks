@@ -31,12 +31,12 @@ public class PersistenceConfig {
 
     @Bean
     public DataSource dataSource(DataSourceVar var) {
-        String username = getValueOrDefault(System.getenv("DB_ENV_MYSQL_USER"), var.getUsername());
-        String password = getValueOrDefault(System.getenv("DB_ENV_MYSQL_PASSWORD"), var.getPassword());
+        String username = getEnv("DB_ENV_MYSQL_USER", var.getUsername());
+        String password = getEnv("DB_ENV_MYSQL_PASSWORD", var.getPassword());
         String url = getValueOrDefault(getUrlOrDefault(
-                        System.getenv("DB_ENV_MYSQL_DATABASE"),
-                        System.getenv("DB_PORT_3306_TCP_ADDR"),
-                        System.getenv("DB_PORT_3306_TCP_PORT")),
+                        getEnv("DB_ENV_MYSQL_DATABASE"),
+                        getEnv("DB_PORT_3306_TCP_ADDR"),
+                        getEnv("DB_PORT_3306_TCP_PORT")),
                 var.getUrl());
 
         DataSourceBuilder builder = DataSourceBuilder.create();
@@ -54,8 +54,17 @@ public class PersistenceConfig {
         }
     }
 
+    private String getEnv(String name, String defaultVal) {
+        String var = System.getenv(name);
+        return getValueOrDefault(var, defaultVal);
+    }
+
     private String getValueOrDefault(String value, String defaultVal) {
-        return StringUtils.isEmpty(value) ? defaultVal : value;
+        return value == null? defaultVal : value;
+    }
+
+    private String getEnv(String name) {
+        return System.getenv(name);
     }
 
     @Data

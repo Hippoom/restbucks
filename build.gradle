@@ -168,6 +168,24 @@ def getBuildNumber() {
     return revision == null ? "dev" : revision
 }
 
+def getEnv(String name, String defaultVal) {
+    println("+++++++++++++++++++++++++++++++++++++")
+    System.getenv(name) == null? defaultVal: System.getenv(name)
+}
 
+def getJdbcUrl() {
+    def db = getEnv("DB_ENV_MYSQL_DATABASE", "restbucks_ordering")
+    def ip = getEnv("DB_PORT_3306_TCP_ADDR", "3306")
+    def port = getEnv("DB_PORT_3306_TCP_PORT", "localhost")
 
+    def url = "jdbc:mysql://${ip}:${port}/${db}?useUnicode=true&characterEncoding=utf-8"
+    return url
+}
+
+flyway {
+    user = getEnv("DB_ENV_MYSQL_USER", "ordering")
+    password = getEnv("DB_ENV_MYSQL_PASSWORD", "123456")
+    url = getJdbcUrl()
+
+}
 
