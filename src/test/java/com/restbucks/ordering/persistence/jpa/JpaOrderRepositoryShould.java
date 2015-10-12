@@ -63,17 +63,54 @@ public class JpaOrderRepositoryShould {
         });
     }
 
+    @DatabaseSetup("given:classpath:persistence/order_update.xml")
+    @ExpectedDatabase(
+            value = "then:classpath:persistence/order_update.xml",
+            assertionMode = NON_STRICT_UNORDERED
+    )
+    @Test
+    public void update() throws Exception {
+        new TransactionTemplate(transactionManager).execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+
+                final Order prototype = subject.findByTrackingId("1");
+                final Order toBeUpdated = subject.findByTrackingId("2");
+
+                cloneFields(prototype, toBeUpdated);
+            }
+        });
+    }
+
     private Order cloneFrom(String trackingId, Order prototype) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration()
-                .setFieldAccessLevel(PRIVATE)
-                .setFieldMatchingEnabled(true);
+        ModelMapper mapper = getModelMapper();
         mapper.addMappings(new PropertyMap<Order, Order>() {
             @Override
             protected void configure() {
                 map(trackingId, destination.getTrackingId());
+                skip(destination.getVersion());
             }
         });
         return mapper.map(prototype, Order.class);
+    }
+
+    private void cloneFields(Order source, Order destination) {
+        ModelMapper mapper = getModelMapper();
+        mapper.addMappings(new PropertyMap<Order, Order>() {
+            @Override
+            protected void configure() {
+                skip(destination.getTrackingId());
+                skip(destination.getVersion());
+            }
+        });
+        mapper.map(source, destination);
+    }
+
+    private ModelMapper getModelMapper() {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration()
+                .setFieldAccessLevel(PRIVATE)
+                .setFieldMatchingEnabled(true);
+        return mapper;
     }
 }

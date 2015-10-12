@@ -20,6 +20,8 @@ public class Order {
     @Id
     @Column(name = "id")
     private String trackingId;
+    @Version
+    private int version;
     private String customer;
     private String location;
     @Convert(converter = OrderStatusConverter.class)
