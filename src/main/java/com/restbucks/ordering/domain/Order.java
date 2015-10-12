@@ -55,6 +55,10 @@ public class Order {
         this.customer = name;
     }
 
+    public void paidWith(double amount) {
+        this.status = Status.PAID;
+    }
+
     @NoArgsConstructor
     @EqualsAndHashCode
     @ToString
@@ -83,6 +87,7 @@ public class Order {
     @Getter
     public enum Status {
         PAYMENT_EXPECTED("payment-expected"),
+        PAID("paid"),
         UNKNOWN("unknown");
 
         private String value;

@@ -1,8 +1,18 @@
 package com.restbucks.ordering.domain;
 
 public class OrderFixture {
+
+    private final Order order;
+
+    public OrderFixture(String trackingId) {
+        order = new Order(trackingId);
+    }
+
+    public OrderFixture() {
+        this("1234");
+    }
+
     public Order build() {
-        Order order = new Order("1234");
         order.customerIs("Doe");
         order.locationIs("takeAway");
         order.append(new Order.Item());
