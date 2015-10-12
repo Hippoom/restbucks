@@ -61,6 +61,10 @@ public class Order {
         this.status = Status.PAID;
     }
 
+    public boolean is(Status status) {
+        return getStatus() == status;
+    }
+
     @NoArgsConstructor
     @EqualsAndHashCode
     @ToString

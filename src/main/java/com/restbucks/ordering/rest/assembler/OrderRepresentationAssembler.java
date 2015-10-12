@@ -7,6 +7,7 @@ import com.restbucks.ordering.rest.representation.OrderRepresentation;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import static com.restbucks.ordering.domain.Order.Status.PAYMENT_EXPECTED;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -25,10 +26,13 @@ public class OrderRepresentationAssembler extends ResourceAssemblerSupport<Order
     @Override
     public OrderRepresentation toResource(Order entity) {
         OrderRepresentation representation = orderRepresentationMapper.from(entity);
+
+        if (entity.is(PAYMENT_EXPECTED)) {
+            representation.add(
+                linkTo(methodOn(PaymentResource.class).get(entity.getTrackingId())).withRel("payment"));
+        }
         representation.add(
                 linkTo(methodOn(OrderingResource.class).get(entity.getTrackingId())).withSelfRel());
-        representation.add(
-                linkTo(methodOn(PaymentResource.class).get(entity.getTrackingId())).withRel("payment"));
         return representation;
     }
 
