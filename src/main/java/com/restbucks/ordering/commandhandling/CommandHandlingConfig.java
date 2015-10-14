@@ -16,12 +16,16 @@ public class CommandHandlingConfig {
     private MakePaymentCommandHandler makePaymentCommandHandler;
 
     @Autowired
+    private PrepareOrderCommandHandler prepareOrderCommandHandler;
+
+    @Autowired
     private CommandGateway commandGateway;
 
     @PostConstruct
     public void register() {
         commandGateway.register(orderingCommandHandler);
         commandGateway.register(makePaymentCommandHandler);
+        commandGateway.register(prepareOrderCommandHandler);
     }
 
 }

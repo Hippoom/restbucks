@@ -22,6 +22,9 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @Component
 public class PaymentResourceProcessor implements ResourceProcessor<Resource<Payment>> {
     @Autowired
@@ -33,6 +36,7 @@ public class PaymentResourceProcessor implements ResourceProcessor<Resource<Paym
         Payment payment = resource.getContent();
 
         resource.add(entityLinks.linkToSingleResource(Payment.class, payment.getId()));
+        resource.add(linkTo(methodOn(OrderingResource.class).get(payment.getId())).withRel("order"));
 
         return resource;
     }

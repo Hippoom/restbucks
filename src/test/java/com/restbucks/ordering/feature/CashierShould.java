@@ -17,6 +17,7 @@ import static com.jayway.restassured.http.ContentType.JSON;
 import static com.jayway.restassured.path.json.JsonPath.from;
 import static com.restbucks.ordering.rest.TestUtils.readFileAsString;
 import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.SC_OK;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
@@ -56,14 +57,40 @@ public class CashierShould {
         String paymentLinkHref = from(orderRepresentation).get("_links.payment.href");
 
         // @formatter:off
-        given()
+        String paymentRepresentation = given()
             .contentType(JSON).content("{\"amount\":" + orderAmount + "}")
         .when()
             .put(paymentLinkHref)
         .then()
             .log().everything()
-            .assertThat().statusCode(SC_CREATED);
+            .assertThat().statusCode(SC_CREATED)
+            .extract().body().asString();
+        // @formatter:on
 
+        String orderLinkHref = from(paymentRepresentation).get("_links.order.href");
+
+        // @formatter:off
+        orderRepresentation = given()
+            .contentType(JSON)
+        .when()
+            .get(orderLinkHref)
+        .then()
+            .log().everything()
+            .assertThat().statusCode(SC_OK)
+            .extract().body().asString();
+        // @formatter:on
+
+        String preparationLinkHref = from(orderRepresentation).get("_links.order-in-preparation.href");
+
+        // @formatter:off
+        given()
+            .contentType(JSON)
+        .when()
+            .put(preparationLinkHref)
+        .then()
+            .log().everything()
+            .assertThat().statusCode(SC_OK)
+            .extract().body().asString();
         // @formatter:on
     }
 }

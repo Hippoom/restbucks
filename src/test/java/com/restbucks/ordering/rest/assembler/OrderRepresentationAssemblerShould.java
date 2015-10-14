@@ -37,7 +37,7 @@ public class OrderRepresentationAssemblerShould {
         OrderRepresentation representation = subject.toResource(order);
 
         assertThat(representation.getLink("self").getHref(), is("http://localhost/order/" + order.getTrackingId()));
-        assertThat(representation.getLink("preparation").getHref(), is("http://localhost/order-in-preparation/" + order.getTrackingId()));
+        assertThat(representation.getLink("order-in-preparation").getHref(), is("http://localhost/order-in-preparation/" + order.getTrackingId()));
         assertThat(representation.getLinks().size(), is(2));
     }
 }

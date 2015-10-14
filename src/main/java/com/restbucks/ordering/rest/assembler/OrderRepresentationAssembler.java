@@ -34,7 +34,7 @@ public class OrderRepresentationAssembler extends ResourceAssemblerSupport<Order
         }
         if (entity.is(PAID)) {
             representation.add(
-                    linkTo(methodOn(OrderingResource.class).prepare(entity.getTrackingId())).withRel("preparation"));
+                    linkTo(methodOn(OrderingResource.class).prepare(entity.getTrackingId())).withRel("order-in-preparation"));
         }
         representation.add(
                 linkTo(methodOn(OrderingResource.class).get(entity.getTrackingId())).withSelfRel());
