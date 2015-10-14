@@ -65,6 +65,10 @@ public class Order {
         return getStatus() == status;
     }
 
+    public void markInPreparation() {
+        this.status = Status.PREPARING;
+    }
+
     @NoArgsConstructor
     @EqualsAndHashCode
     @ToString
@@ -92,9 +96,10 @@ public class Order {
 
     @Getter
     public enum Status {
+        UNKNOWN("unknown"),
         PAYMENT_EXPECTED("payment-expected"),
         PAID("paid"),
-        UNKNOWN("unknown");
+        PREPARING("preparing");
 
         private String value;
 
@@ -104,7 +109,7 @@ public class Order {
 
 
         public static Status of(String value) {
-            for (Status candidate: values()) {
+            for (Status candidate : values()) {
                 if (candidate.getValue().equals(value)) {
                     return candidate;
                 }

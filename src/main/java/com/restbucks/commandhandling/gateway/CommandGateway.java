@@ -50,6 +50,7 @@ public class CommandGateway {
             this.method = method;
         }
 
+        @SuppressWarnings("unchecked")
         public <T> T handle(Object command) throws InvocationTargetException, IllegalAccessException {
             return (T) this.method.invoke(commandHandler, command);
         }

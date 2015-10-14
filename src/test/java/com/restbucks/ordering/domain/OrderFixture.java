@@ -12,10 +12,16 @@ public class OrderFixture {
         this("1234");
     }
 
+    public OrderFixture paid() {
+        order.paidWith(order.getCost());
+        return this;
+    }
+
     public Order build() {
         order.customerIs("Doe");
         order.locationIs("takeAway");
         order.append(new Order.Item());
         return order;
     }
+
 }

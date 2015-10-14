@@ -4,9 +4,11 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.restassured.RestAssured;
 import com.restbucks.commandhandling.gateway.CommandGateway;
 import com.restbucks.ordering.Application;
+import com.restbucks.ordering.commands.MarkOrderInPreparationCommand;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderFixture;
+import com.restbucks.ordering.domain.OrderRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,11 +29,11 @@ import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static java.lang.String.format;
 import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -51,7 +53,11 @@ public class OrderResourceShould {
     @Mock
     private CommandGateway commandGateway;
 
+    @Mock
+    private OrderRepository orderRepository;
+
     private final ArgumentCaptor<PlaceOrderCommand> placeOrderCommand = ArgumentCaptor.forClass(PlaceOrderCommand.class);
+    private final ArgumentCaptor<MarkOrderInPreparationCommand> markOrderInPreparationCommand = ArgumentCaptor.forClass(MarkOrderInPreparationCommand.class);
 
     @Before
     public void config_rest_assured() {
@@ -62,6 +68,7 @@ public class OrderResourceShould {
     public void injectMocks() {
         MockitoAnnotations.initMocks(this);
         reset(commandGateway);
+        reset(orderRepository);
     }
 
     @Test
@@ -109,6 +116,32 @@ public class OrderResourceShould {
         assertThat(placeOrderCommand.getValue().getItems().get(0).getSize(),
                 equalTo(JsonPath.read(command, "$.items[0].size")));
     }
+
+    @Test
+    public void sendPrepareOrderCommand() {
+
+        when(orderRepository.findByTrackingId("1234")).
+                thenReturn(new OrderFixture("1234").build());
+
+        // @formatter:off
+        String body = given().
+            contentType(JSON).
+        when().
+            put("/order-in-preparation/1234").
+        then().
+            log().everything()
+            .assertThat().statusCode(SC_OK).
+            extract().response().asString();
+        // @formatter:on
+
+        verify(commandGateway).send(markOrderInPreparationCommand.capture());
+
+        assertThat(JsonPath.read(body, "$._links.self.href"),
+                is(format("http://localhost:%d/order/1234", getPort())));
+
+
+    }
+
 
     protected int getPort() {
         return port;
