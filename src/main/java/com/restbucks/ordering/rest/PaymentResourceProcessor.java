@@ -36,7 +36,7 @@ public class PaymentResourceProcessor implements ResourceProcessor<Resource<Paym
         Payment payment = resource.getContent();
 
         resource.add(entityLinks.linkToSingleResource(Payment.class, payment.getId()));
-        resource.add(linkTo(methodOn(OrderingResource.class).get(payment.getId())).withRel("order"));
+        resource.add(linkTo(methodOn(OrderResource.class).get(payment.getId())).withRel("order"));
 
         return resource;
     }

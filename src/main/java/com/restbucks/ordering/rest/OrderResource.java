@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
-public class OrderingResource {
+public class OrderResource {
     @Autowired
     private CommandGateway commandGateway;
     @Autowired

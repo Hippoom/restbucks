@@ -1,7 +1,7 @@
 package com.restbucks.ordering.rest.assembler;
 
 import com.restbucks.ordering.domain.Order;
-import com.restbucks.ordering.rest.OrderingResource;
+import com.restbucks.ordering.rest.OrderResource;
 import com.restbucks.ordering.rest.PaymentResource;
 import com.restbucks.ordering.rest.representation.OrderRepresentation;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
@@ -17,7 +17,7 @@ public class OrderRepresentationAssembler extends ResourceAssemblerSupport<Order
     private final OrderRepresentationMapper orderRepresentationMapper = new OrderRepresentationMapper();
 
     public OrderRepresentationAssembler() {
-        super(OrderingResource.class, OrderRepresentation.class);
+        super(OrderResource.class, OrderRepresentation.class);
     }
 
     public OrderRepresentation assemble(Order model) {
@@ -34,10 +34,10 @@ public class OrderRepresentationAssembler extends ResourceAssemblerSupport<Order
         }
         if (entity.is(PAID)) {
             representation.add(
-                    linkTo(methodOn(OrderingResource.class).prepare(entity.getTrackingId())).withRel("order-in-preparation"));
+                    linkTo(methodOn(OrderResource.class).prepare(entity.getTrackingId())).withRel("order-in-preparation"));
         }
         representation.add(
-                linkTo(methodOn(OrderingResource.class).get(entity.getTrackingId())).withSelfRel());
+                linkTo(methodOn(OrderResource.class).get(entity.getTrackingId())).withSelfRel());
         return representation;
     }
 

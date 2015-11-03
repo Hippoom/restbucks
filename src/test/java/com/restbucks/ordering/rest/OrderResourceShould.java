@@ -48,7 +48,7 @@ public class OrderResourceShould {
 
     @InjectMocks
     @Autowired
-    private OrderingResource subject;
+    private OrderResource subject;
 
     @Mock
     private CommandGateway commandGateway;
