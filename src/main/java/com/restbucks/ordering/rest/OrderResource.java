@@ -2,6 +2,7 @@ package com.restbucks.ordering.rest;
 
 import com.restbucks.commandhandling.gateway.CommandGateway;
 import com.restbucks.ordering.commands.MarkOrderInPreparationCommand;
+import com.restbucks.ordering.commands.MarkOrderPreparedCommand;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderRepository;
@@ -41,6 +42,15 @@ public class OrderResource {
     public OrderRepresentation prepare(@PathVariable String trackingId) {
 
         commandGateway.send(new MarkOrderInPreparationCommand(trackingId));
+
+        return get(trackingId);
+    }
+
+    @RequestMapping(value = "/order-in-preparation/{trackingId}", method = DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public OrderRepresentation ready(@PathVariable String trackingId) {
+
+        commandGateway.send(new MarkOrderPreparedCommand(trackingId));
 
         return get(trackingId);
     }
