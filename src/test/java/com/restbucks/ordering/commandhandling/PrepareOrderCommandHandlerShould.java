@@ -1,6 +1,7 @@
 package com.restbucks.ordering.commandhandling;
 
 import com.restbucks.ordering.commands.MarkOrderInPreparationCommand;
+import com.restbucks.ordering.commands.MarkOrderPreparedCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderFixture;
 import com.restbucks.ordering.domain.OrderRepository;
@@ -29,7 +30,7 @@ public class PrepareOrderCommandHandlerShould {
     }
 
     @Test
-    public void itShouldMarkOrderInPreparation() {
+    public void markOrderInPreparation() {
         Order order = new OrderFixture().paid().build();
 
         when(orderRepository.findByTrackingId(order.getTrackingId())).
@@ -38,5 +39,17 @@ public class PrepareOrderCommandHandlerShould {
         subject.handle(new MarkOrderInPreparationCommand(order.getTrackingId()));
 
         assertThat(order.getStatus(), is(Order.Status.PREPARING));
+    }
+
+    @Test
+    public void markOrderReady_givenTheOrderHasBeenPrepared() {
+        Order order = new OrderFixture().inPreparation().build();
+
+        when(orderRepository.findByTrackingId(order.getTrackingId())).
+                thenReturn(order);
+
+        subject.handle(new MarkOrderPreparedCommand(order.getTrackingId()));
+
+        assertThat(order.getStatus(), is(Order.Status.READY));
     }
 }

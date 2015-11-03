@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import static com.restbucks.ordering.domain.Order.Status.PAID;
 import static com.restbucks.ordering.domain.Order.Status.PAYMENT_EXPECTED;
+import static com.restbucks.ordering.domain.Order.Status.PREPARING;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -32,7 +33,7 @@ public class OrderRepresentationAssembler extends ResourceAssemblerSupport<Order
             representation.add(
                 linkTo(methodOn(PaymentResource.class).get(entity.getTrackingId())).withRel("payment"));
         }
-        if (entity.is(PAID)) {
+        if (entity.is(PAID) || entity.is(PREPARING)) {
             representation.add(
                     linkTo(methodOn(OrderResource.class).prepare(entity.getTrackingId())).withRel("order-in-preparation"));
         }

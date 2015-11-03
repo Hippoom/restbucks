@@ -17,11 +17,15 @@ public class OrderFixture {
         return this;
     }
 
+    public OrderFixture inPreparation() {
+        order.markInPreparation();
+        return this;
+    }
+
     public Order build() {
         order.customerIs("Doe");
         order.locationIs("takeAway");
         order.append(new Order.Item());
         return order;
     }
-
 }

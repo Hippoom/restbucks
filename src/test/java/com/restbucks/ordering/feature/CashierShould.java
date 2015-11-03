@@ -83,10 +83,23 @@ public class CashierShould {
         String preparationLinkHref = from(orderRepresentation).get("_links.order-in-preparation.href");
 
         // @formatter:off
-        given()
+        orderRepresentation = given()
             .contentType(JSON)
         .when()
             .put(preparationLinkHref)
+        .then()
+            .log().everything()
+            .assertThat().statusCode(SC_OK)
+            .extract().body().asString();
+        // @formatter:on
+
+        String preparedLinkHref = from(orderRepresentation).get("_links.order-in-preparation.href");
+
+        // @formatter:off
+        given()
+            .contentType(JSON)
+        .when()
+            .delete(preparationLinkHref)
         .then()
             .log().everything()
             .assertThat().statusCode(SC_OK)

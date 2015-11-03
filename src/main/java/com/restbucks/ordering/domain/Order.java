@@ -69,6 +69,10 @@ public class Order {
         this.status = Status.PREPARING;
     }
 
+    public void markPrepared() {
+        this.status = Status.READY;
+    }
+
     @NoArgsConstructor
     @EqualsAndHashCode
     @ToString
@@ -99,7 +103,8 @@ public class Order {
         UNKNOWN("unknown"),
         PAYMENT_EXPECTED("payment-expected"),
         PAID("paid"),
-        PREPARING("preparing");
+        PREPARING("preparing"),
+        READY("ready");
 
         private String value;
 
