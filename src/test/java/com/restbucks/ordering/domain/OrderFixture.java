@@ -22,10 +22,15 @@ public class OrderFixture {
         return this;
     }
 
+    public OrderFixture prepared() {
+        order.markPrepared();
+        return this;
+    }
     public Order build() {
         order.customerIs("Doe");
         order.locationIs("takeAway");
         order.append(new Order.Item());
         return order;
     }
+
 }

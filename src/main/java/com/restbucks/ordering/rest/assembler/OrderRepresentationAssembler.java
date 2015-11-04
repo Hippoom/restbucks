@@ -7,9 +7,7 @@ import com.restbucks.ordering.rest.representation.OrderRepresentation;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import static com.restbucks.ordering.domain.Order.Status.PAID;
-import static com.restbucks.ordering.domain.Order.Status.PAYMENT_EXPECTED;
-import static com.restbucks.ordering.domain.Order.Status.PREPARING;
+import static com.restbucks.ordering.domain.Order.Status.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -36,6 +34,10 @@ public class OrderRepresentationAssembler extends ResourceAssemblerSupport<Order
         if (entity.is(PAID) || entity.is(PREPARING)) {
             representation.add(
                     linkTo(methodOn(OrderResource.class).prepare(entity.getTrackingId())).withRel("order-in-preparation"));
+        }
+        if (entity.is(READY)) {
+            representation.add(
+                    linkTo(methodOn(OrderResource.class).takeReceipt(entity.getTrackingId())).withRel("receipt"));
         }
         representation.add(
                 linkTo(methodOn(OrderResource.class).get(entity.getTrackingId())).withSelfRel());

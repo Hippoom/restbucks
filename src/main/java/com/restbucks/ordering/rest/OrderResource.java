@@ -4,6 +4,7 @@ import com.restbucks.commandhandling.gateway.CommandGateway;
 import com.restbucks.ordering.commands.MarkOrderInPreparationCommand;
 import com.restbucks.ordering.commands.MarkOrderPreparedCommand;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
+import com.restbucks.ordering.commands.TakeReceiptCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderRepository;
 import com.restbucks.ordering.rest.assembler.OrderRepresentationAssembler;
@@ -51,6 +52,15 @@ public class OrderResource {
     public OrderRepresentation ready(@PathVariable String trackingId) {
 
         commandGateway.send(new MarkOrderPreparedCommand(trackingId));
+
+        return get(trackingId);
+    }
+
+    @RequestMapping(value = "/receipt/{trackingId}", method = DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public OrderRepresentation takeReceipt(@PathVariable String trackingId) {
+
+        commandGateway.send(new TakeReceiptCommand(trackingId));
 
         return get(trackingId);
     }

@@ -19,6 +19,9 @@ public class CommandHandlingConfig {
     private PrepareOrderCommandHandler prepareOrderCommandHandler;
 
     @Autowired
+    private TakeReceiptCommandHandler takeReceiptCommandHandler;
+
+    @Autowired
     private CommandGateway commandGateway;
 
     @PostConstruct
@@ -26,6 +29,7 @@ public class CommandHandlingConfig {
         commandGateway.register(orderingCommandHandler);
         commandGateway.register(makePaymentCommandHandler);
         commandGateway.register(prepareOrderCommandHandler);
+        commandGateway.register(takeReceiptCommandHandler);
     }
 
 }

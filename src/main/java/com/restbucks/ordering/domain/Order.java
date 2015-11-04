@@ -73,6 +73,10 @@ public class Order {
         this.status = Status.READY;
     }
 
+    public void markTaken() {
+        this.status = Status.TAKEN;
+    }
+
     @NoArgsConstructor
     @EqualsAndHashCode
     @ToString
@@ -104,7 +108,8 @@ public class Order {
         PAYMENT_EXPECTED("payment-expected"),
         PAID("paid"),
         PREPARING("preparing"),
-        READY("ready");
+        READY("ready"),
+        TAKEN("taken");
 
         private String value;
 

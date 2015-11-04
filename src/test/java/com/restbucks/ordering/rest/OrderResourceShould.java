@@ -7,6 +7,7 @@ import com.restbucks.ordering.Application;
 import com.restbucks.ordering.commands.MarkOrderInPreparationCommand;
 import com.restbucks.ordering.commands.MarkOrderPreparedCommand;
 import com.restbucks.ordering.commands.PlaceOrderCommand;
+import com.restbucks.ordering.commands.TakeReceiptCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderFixture;
 import com.restbucks.ordering.domain.OrderRepository;
@@ -60,6 +61,7 @@ public class OrderResourceShould {
     private final ArgumentCaptor<PlaceOrderCommand> placeOrderCommand = ArgumentCaptor.forClass(PlaceOrderCommand.class);
     private final ArgumentCaptor<MarkOrderInPreparationCommand> markOrderInPreparationCommand = ArgumentCaptor.forClass(MarkOrderInPreparationCommand.class);
     private final ArgumentCaptor<MarkOrderPreparedCommand> markOrderPreparedCommand = ArgumentCaptor.forClass(MarkOrderPreparedCommand.class);
+    private final ArgumentCaptor<TakeReceiptCommand> takeReceiptCommand = ArgumentCaptor.forClass(TakeReceiptCommand.class);
 
     @Before
     public void config_rest_assured() {
@@ -162,6 +164,31 @@ public class OrderResourceShould {
         // @formatter:on
 
         verify(commandGateway).send(markOrderPreparedCommand.capture());
+
+        assertThat(JsonPath.read(body, "$._links.self.href"),
+                is(format("http://localhost:%d/order/1234", getPort())));
+
+
+    }
+
+    @Test
+    public void sendTakeReceiptCommand() {
+
+        when(orderRepository.findByTrackingId("1234")).
+                thenReturn(new OrderFixture("1234").build());
+
+        // @formatter:off
+        String body = given().
+            contentType(JSON).
+        when().
+            delete("/receipt/1234").
+        then().
+            log().everything()
+            .assertThat().statusCode(SC_OK).
+            extract().response().asString();
+        // @formatter:on
+
+        verify(commandGateway).send(takeReceiptCommand.capture());
 
         assertThat(JsonPath.read(body, "$._links.self.href"),
                 is(format("http://localhost:%d/order/1234", getPort())));
