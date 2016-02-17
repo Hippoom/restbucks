@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 public class CommandHandlingConfig {
 
     @Autowired
-    private OrderingCommandHandler orderingCommandHandler;
+    private PlaceOrderCommandHandler placeOrderCommandHandler;
 
     @Autowired
     private MakePaymentCommandHandler makePaymentCommandHandler;
@@ -26,7 +26,7 @@ public class CommandHandlingConfig {
 
     @PostConstruct
     public void register() {
-        commandGateway.register(orderingCommandHandler);
+        commandGateway.register(placeOrderCommandHandler);
         commandGateway.register(makePaymentCommandHandler);
         commandGateway.register(prepareOrderCommandHandler);
         commandGateway.register(takeReceiptCommandHandler);

@@ -65,6 +65,8 @@ dependencies {
     compile 'dom4j:dom4j:1.6.1'
     compile 'jaxen:jaxen:1.1.6'
     compile 'mysql:mysql-connector-java:5.1.36'
+    compile "io.tracee.binding:tracee-servlet:${traceeVersion}"
+    compile "io.tracee.binding:tracee-httpcomponents:${traceeVersion}"
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile('junit:junit:4.12') {
@@ -86,7 +88,7 @@ buildscript {
 
     ext {
         springVersion = '4.2.1.RELEASE'
-        springBootVersion = '1.2.5.RELEASE'
+        traceeVersion = '1.1.1'
     }
 
     repositories {
@@ -94,7 +96,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.1.RELEASE")
         classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
         classpath 'mysql:mysql-connector-java:5.1.36'
     }
@@ -171,7 +173,6 @@ def getBuildNumber() {
 }
 
 def getEnv(String name, String defaultVal) {
-    println("+++++++++++++++++++++++++++++++++++++")
     System.getenv(name) == null? defaultVal: System.getenv(name)
 }
 

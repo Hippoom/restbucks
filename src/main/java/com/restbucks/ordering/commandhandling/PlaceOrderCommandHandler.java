@@ -5,6 +5,7 @@ import com.restbucks.ordering.commands.PlaceOrderCommand;
 import com.restbucks.ordering.domain.Order;
 import com.restbucks.ordering.domain.OrderRepository;
 import com.restbucks.ordering.domain.ProductCatalogService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,9 @@ import java.util.List;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
+@Slf4j
 @Component
-public class OrderingCommandHandler {
+public class PlaceOrderCommandHandler {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -29,6 +31,8 @@ public class OrderingCommandHandler {
         order.customerIs(command.getCustomer());
         order.locationIs(command.getLocation());
         order.append(itemsFrom(command.getItems()));
+
+        log.debug("Trying to store order {}", order.getTrackingId());
         orderRepository.store(order);
         return order;
     }
@@ -43,7 +47,9 @@ public class OrderingCommandHandler {
         Converter<PlaceOrderCommand.Item, Double> getPrice = new AbstractConverter<PlaceOrderCommand.Item, Double>() {
             @Override
             protected Double convert(PlaceOrderCommand.Item item) {
-                return productCatalogService.evaluate(item.getName(), item.getSize());
+                double price = productCatalogService.evaluate(item.getName(), item.getSize());
+                log.debug("Get price from catalogService for [{}, {}]: {}", item.getName(), item.getSize(), price);
+                return price;
             }
         };
         mapper.addMappings(new PropertyMap<PlaceOrderCommand.Item, Order.Item>() {

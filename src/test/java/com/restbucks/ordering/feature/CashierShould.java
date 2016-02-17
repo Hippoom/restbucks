@@ -1,9 +1,18 @@
 package com.restbucks.ordering.feature;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.config.HttpClientConfig;
 import com.restbucks.ordering.profile.ProfileConfiguration;
+import io.tracee.Tracee;
+import io.tracee.binding.httpcomponents.TraceeHttpRequestInterceptor;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +22,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import java.io.IOException;
 
 import static com.jayway.restassured.RestAssured.given;
+import static com.jayway.restassured.config.HttpClientConfig.httpClientConfig;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static com.jayway.restassured.path.json.JsonPath.from;
 import static com.restbucks.ordering.rest.TestUtils.readFileAsString;
@@ -30,15 +40,41 @@ public class CashierShould {
     @Autowired
     private ProfileConfiguration profile;
 
+    @Rule
+    public final TestRule traceTestWatcher = new TestWatcher() {
+        @Override
+        protected void starting(Description d) {
+            Tracee.getBackend().put("testCase", d.getDisplayName());
+        }
+
+        @Override
+        protected void finished(Description d) {
+            Tracee.getBackend().clear();
+        }
+    };
+
+
     @Before
     public void config_rest_assured() {
         RestAssured.baseURI = profile.getApplicationBaseUri();
         RestAssured.port = profile.getApplicationPort();
+        RestAssured.config = RestAssured.
+                config().
+                httpClient(httpClientConfig().
+                        httpClientFactory(new HttpClientConfig.HttpClientFactory() {
+
+                            @Override
+                            public HttpClient createHttpClient() {
+                                DefaultHttpClient httpClient = new DefaultHttpClient();
+                                httpClient.addRequestInterceptor(new TraceeHttpRequestInterceptor());
+                                //httpClient.addResponseInterceptor(new TraceeHttpResponseInterceptor());
+                                return httpClient;
+                            }
+                        }));
     }
 
     @Test
     public void acceptOrder() throws IOException {
-
 
         String placeOrderCommand = readFileAsString("classpath:feature/order.json");
 

@@ -21,10 +21,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class OrderingCommandHandlerTest {
+public class PlaceOrderCommandHandlerTest {
 
     @InjectMocks
-    private OrderingCommandHandler subject = new OrderingCommandHandler();
+    private PlaceOrderCommandHandler subject = new PlaceOrderCommandHandler();
 
     @Mock
     private OrderRepository orderRepository;

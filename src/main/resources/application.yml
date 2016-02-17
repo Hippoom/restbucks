@@ -8,6 +8,8 @@ spring:
         naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
 logging:
   level:
+    com:
+      restbucks: debug
     org:
       hibernate:
         type: trace
