@@ -11,7 +11,7 @@ docker run --name $profile-restbucks-ordering \
            -p 8080 \
            -d \
            --link $profile-restbucks-ordering-db:db \
-           -v $WORKSPACE:/project \
+           -v $project_home:/project \
            -w /project \
            java:8  \
            java -jar build/libs/restbucks-ordering.jar

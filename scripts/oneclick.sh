@@ -4,14 +4,15 @@
 profile=$1
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. $DIR/common.sh
 
+rm -rf $project_home/build
 
 . $DIR/build.sh
 
 . $DIR/dbsetup.sh $profile
 sleep 10
 
-. $DIR/dbmigrate.sh $profile
 . $DIR/deploy.sh $profile
 
 sleep 10

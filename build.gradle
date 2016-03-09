@@ -61,6 +61,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.data:spring-data-jpa:1.9.0.RELEASE'
     compile 'org.hibernate:hibernate-entitymanager:4.3.11.Final'
+    compile "org.flywaydb:flyway-core:${flywayVersion}"
     compile 'org.apache.commons:commons-dbcp2:2.1.1'
     compile 'dom4j:dom4j:1.6.1'
     compile 'jaxen:jaxen:1.1.6'
@@ -79,7 +80,7 @@ dependencies {
     testCompile 'org.assertj:assertj-core:3.1.0'
     testCompile 'com.h2database:h2:1.4.187'
     testCompile 'com.github.hippoom:spring-test-dbunit-template:0.1.1'
-    testCompile('org.flywaydb.flyway-test-extensions:flyway-spring-test:3.2.1') {
+    testCompile("org.flywaydb.flyway-test-extensions:flyway-spring-test:${flywayVersion}") {
         exclude group: 'org.slf4j' //introducing multiple slf4j impl
     }
 }
@@ -89,6 +90,7 @@ buildscript {
     ext {
         springVersion = '4.2.1.RELEASE'
         traceeVersion = '1.1.1'
+        flywayVersion = '3.2.1'
     }
 
     repositories {
@@ -96,8 +98,8 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.1.RELEASE")
-        classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.3.1.RELEASE"
+        classpath "org.flywaydb:flyway-gradle-plugin:${flywayVersion}"
         classpath 'mysql:mysql-connector-java:5.1.36'
     }
 
