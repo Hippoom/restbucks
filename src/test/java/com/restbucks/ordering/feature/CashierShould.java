@@ -58,13 +58,13 @@ public class CashierShould {
     public void config_rest_assured() {
         RestAssured.baseURI = profile.getApplicationBaseUri();
         RestAssured.port = profile.getApplicationPort();
-        RestAssured.config = RestAssured.
-                config().
+        RestAssured.config = RestAssured.config().
                 httpClient(httpClientConfig().
                         httpClientFactory(new HttpClientConfig.HttpClientFactory() {
 
                             @Override
                             public HttpClient createHttpClient() {
+                                //noinspection deprecation as only DefaultHttpClient is available here
                                 DefaultHttpClient httpClient = new DefaultHttpClient();
                                 httpClient.addRequestInterceptor(new TraceeHttpRequestInterceptor());
                                 //httpClient.addResponseInterceptor(new TraceeHttpResponseInterceptor());
