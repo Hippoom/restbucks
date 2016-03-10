@@ -3,18 +3,18 @@
 
 profile=$1
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-. $DIR/common.sh
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. "$script_dir"/common.sh #use quote here to compliant with space in dir
 
 rm -rf $project_home/build
 
-. $DIR/build.sh
+. "$script_dir"/build.sh
 
-. $DIR/dbsetup.sh $profile
+. "$script_dir"/dbsetup.sh $profile
 sleep 10
 
-. $DIR/deploy.sh $profile
+. "$script_dir"/deploy.sh $profile
 
 sleep 10
-. $DIR/smoke.sh $profile
-. $DIR/feature.sh $profile
+. "$script_dir"/smoke.sh $profile
+. "$script_dir"/feature.sh $profile

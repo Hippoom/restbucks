@@ -2,8 +2,8 @@
 
 profile=$1
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-. $DIR/common.sh
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. "$script_dir"/common.sh #use quote here to compliant with space in dir
 
 docker rm -f -v $profile-restbucks-ordering || true
 
