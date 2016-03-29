@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://10.0.2.2:3306/restbucks_ordering?useUnicode=true&characterEncoding=utf-8
+    username: ordering
+    password: 123456
+
+logging:
+  file: /opt/restbucks/ordering/logs/app.log

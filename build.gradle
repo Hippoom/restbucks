@@ -116,14 +116,10 @@ test {
 
 test.finalizedBy jacocoTestReport
 
-jar {
-    version = null //version is saved in meta.json and versioned()
-}
-
 task versioned() {
     doLast {
         def file = file("${buildDir}/version")
-        file.text = getVersion()
+        file.text = project.getVersion()
     }
 }
 
