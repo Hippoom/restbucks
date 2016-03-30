@@ -5,4 +5,4 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 version=$(eval cat "$project_home"/build/version)
 
-docker build -t "hippoom/restbucks-ordering:$version" "$project_home"
+docker build -t "hippoom/restbucks-ordering-test:$version" -f "$project_home"/Dockerfile.test "$project_home"

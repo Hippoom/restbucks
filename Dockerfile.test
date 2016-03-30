@@ -1,0 +1,18 @@
+FROM java:8
+
+COPY gradlew build.gradle settings.gradle /opt/restbucks/ordering/
+COPY gradle /opt/restbucks/ordering/gradle
+COPY build/classes /opt/restbucks/ordering/build/classes
+COPY build/resources /opt/restbucks/ordering/build/resources
+
+# Define mountable directories
+VOLUME /opt/restbucks/ordering/config
+VOLUME /opt/restbucks/ordering/logs
+
+WORKDIR /opt/restbucks/ordering
+
+ENTRYPOINT ["./gradlew"]
+
+
+
+
