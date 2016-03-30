@@ -1,17 +1,15 @@
-#!/usr/bin/env bash -e
-
-profile=$1
+#!/usr/bin/env bash
 
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . "$script_dir"/common.sh #use quote here to compliant with space in dir
 
+profile=$1
+version=$2
+
 docker rm -f -v $profile-restbucks-ordering || true
 
 docker run --name $profile-restbucks-ordering \
-           -p 8080 \
+           -P \
            -d \
            --link $profile-restbucks-ordering-db:db \
-           -v $project_home:/project \
-           -w /project \
-           java:8  \
-           java -jar build/libs/restbucks-ordering.jar
+           hippoom/restbucks-ordering:$version

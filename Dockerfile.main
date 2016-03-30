@@ -1,6 +1,7 @@
 FROM java:8
 
 COPY build/version build/libs/*.jar /opt/restbucks/ordering/
+COPY product-catalog.xml /opt/restbucks/ordering/
 
 # Define mountable directories
 VOLUME /opt/restbucks/ordering/config

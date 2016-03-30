@@ -10,11 +10,17 @@ rm -rf $project_home/build
 
 . "$script_dir"/build.sh
 
+version=$(cat build/version)
+
+. "$script_dir"/build-image.sh
+
+. "$script_dir"/build-test-image.sh
+
 . "$script_dir"/dbsetup.sh $profile
 sleep 10
 
-. "$script_dir"/deploy.sh $profile
+. "$script_dir"/deploy.sh $profile $version
 
 sleep 10
-. "$script_dir"/smoke.sh $profile
-. "$script_dir"/feature.sh $profile
+. "$script_dir"/smoke.sh $profile $version
+. "$script_dir"/feature.sh $profile $version
