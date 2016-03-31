@@ -8,5 +8,6 @@ docker run --rm \
            -v "$user_home"/.gradle:/root/.gradle \
            -v "$project_home":/project \
            -w /project \
+           -e "BUILD_NUM=$BUILD_NUM" \
            java:8 \
            ./gradlew clean build

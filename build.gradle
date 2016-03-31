@@ -162,12 +162,11 @@ task featureTest(type: Test) {
 }
 
 def getVersion() {
-    return "0.1-" + getBuildNumber()
+    "0.1-" + getBuildNumber()
 }
 
 def getBuildNumber() {
-    def revision = System.getenv('BUILD_NUM')
-    return revision == null ? "dev" : revision
+    getEnv('BUILD_NUM', 'dev')
 }
 
 def getEnv(String name, String defaultVal) {
