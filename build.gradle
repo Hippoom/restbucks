@@ -166,7 +166,7 @@ def getVersion() {
 }
 
 def getBuildNumber() {
-    def revision = System.getenv('GO_REVISION')
+    def revision = System.getenv('BUILD_NUM')
     return revision == null ? "dev" : revision
 }
 
