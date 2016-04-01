@@ -1,4 +1,4 @@
-FROM java:8
+FROM java:8-jdk-alpine
 
 COPY build/version build/libs/*.jar /opt/restbucks/ordering/
 COPY product-catalog.xml /opt/restbucks/ordering/
