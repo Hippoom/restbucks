@@ -170,7 +170,8 @@ def getBuildNumber() {
 }
 
 def getEnv(String name, String defaultVal) {
-    System.getenv(name) == null? defaultVal: System.getenv(name)
+    def maybe = System.getenv(name)?.trim()
+    maybe ? System.getenv(name): defaultVal
 }
 
 def getJdbcUrl() {
