@@ -10,8 +10,8 @@ version=$2
 docker run --rm \
            --name $profile-restbucks-ordering-smoke-test \
            -t \
-           -v $user_home/.gradle:/root/.gradle \
-           -v $project_home/build:/opt/restbucks/ordering/build \
+           -v "$user_home"/.gradle:/root/.gradle \
+           -v "$project_home"/build:/opt/restbucks/ordering/build \
            --link $profile-restbucks-ordering:app \
            hippoom/restbucks-ordering-test:$version \
            smokeTest
