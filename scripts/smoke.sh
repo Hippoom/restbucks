@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/bin/sh -xe
 
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . "$script_dir"/common.sh #use quote here to compliant with space in dir

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/bin/sh -xe
 
 project_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
 

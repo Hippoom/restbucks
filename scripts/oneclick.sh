@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/bin/sh -xe
 
 
 profile=$1
