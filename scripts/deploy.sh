@@ -12,4 +12,4 @@ docker run --name $profile-restbucks-ordering \
            -P \
            -d \
            --link $profile-restbucks-ordering-db:db \
-           hippoom/restbucks-ordering:$version
+           ${main_image}:$version

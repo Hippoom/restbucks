@@ -8,7 +8,5 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 version=$(cat "$project_home"/build/version)
 
-docker tag "hippoom/restbucks-ordering:$version" "index.alauda.cn/hippoom/restbucks-ordering:$version"
-docker tag "hippoom/restbucks-ordering-test:$version" "index.alauda.cn/hippoom/restbucks-ordering-test:$version"
-docker push "index.alauda.cn/hippoom/restbucks-ordering:$version"
-docker push "index.alauda.cn/hippoom/restbucks-ordering-test:$version"
+docker push "$main_image:$version"
+docker push "$test_image:$version"

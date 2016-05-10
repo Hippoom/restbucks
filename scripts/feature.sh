@@ -13,5 +13,5 @@ docker run --rm \
            -v "$user_home"/.gradle:/root/.gradle \
            -v "$project_home"/build:/opt/restbucks/ordering/build \
            --link $profile-restbucks-ordering:app \
-           hippoom/restbucks-ordering-test:$version \
+           $test_image:$version \
            featureTest
